@@ -15,9 +15,10 @@ int main(int argc, char const *argv[]) {
   // Handle hello world scenario
   if(strcmp(argv[1], "-hw") == 0) { printf("%s\n","Hello world" ); exit(0); }
 
+  //Open the file in read only mode
   filedesc = open(argv[1], O_RDONLY);
   //printf("rc from open %d\n",filedesc);
-
+  
   n = read(filedesc, buffer, 8);
   //printf("n %d\n",n);
 
