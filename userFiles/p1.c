@@ -5,6 +5,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <ctype.h>
+
+void printBufferLine(unsigned char buffer[], int filedesc);
 
 int main(int argc, char const *argv[]) {
   int filedesc, n;
@@ -17,20 +20,38 @@ int main(int argc, char const *argv[]) {
 
   //Open the file in read only mode
   filedesc = open(argv[1], O_RDONLY);
-  //printf("rc from open %d\n",filedesc);
 
-  n = read(filedesc, buffer, 16);
-  //printf("n %d\n",n);
-
-  for (int i=0; i < strlen(buffer); i++)
-  {
-      printf("%02x",buffer[i]);
-      if(i % 2 == 1){printf(" ");}
-  }
-  for(int j=0; j < strlen(buffer); j++){
-    printf("%c",buffer[j] );
-  }
-  printf("\n");
-  //FILE *file = fopen( argv[1], "r" );
+  printBufferLine(buffer, filedesc);
   return 0;
+}
+
+void printBufferLine(unsigned char buffer[], int filedesc){
+  int fileBytes;
+  fileBytes = read(filedesc, buffer, 16);
+  while(fileBytes > 0){
+    for (int i=0; i < fileBytes; i++)
+    {
+        printf("%02x",buffer[i]);
+        if(i % 2 == 1){printf(" ");}
+    }
+
+      if(fileBytes < 16){
+        //printf(" FILEBYTES: %d ",fileBytes);
+        for (int i = 0; i < (36 - fileBytes); i++) {
+          printf(" ");
+        }
+      }
+
+    printf(" " );
+    for(int j=0; j < fileBytes; j++){
+      if(isprint(buffer[j])){
+        printf("%c", buffer[j] );
+      } else {
+        printf("." );
+      }
+    }
+      printf("\n");
+    fileBytes = read(filedesc, buffer, 16);
+    //printf("%d fileBytes read \n", fileBytes);
+  }
 }
