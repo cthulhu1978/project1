@@ -18,13 +18,17 @@ int main(int argc, char const *argv[]) {
   //Open the file in read only mode
   filedesc = open(argv[1], O_RDONLY);
   //printf("rc from open %d\n",filedesc);
-  
-  n = read(filedesc, buffer, 8);
+
+  n = read(filedesc, buffer, 16);
   //printf("n %d\n",n);
 
   for (int i=0; i < strlen(buffer); i++)
   {
-      printf("%02x ",buffer[i]);
+      printf("%02x",buffer[i]);
+      if(i % 2 == 1){printf(" ");}
+  }
+  for(int j=0; j < strlen(buffer); j++){
+    printf("%c",buffer[j] );
   }
   printf("\n");
   //FILE *file = fopen( argv[1], "r" );
