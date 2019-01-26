@@ -39,12 +39,12 @@ void printBufferLine(unsigned char buffer[], int filedesc){
         spaces+=2;
         if(i % 2 == 1){printf(" "); spaces+=1;}
     }
-    printf(" spaces: %d ",spaces );
+    //printf(" spaces: %d ",spaces );
 
     sum+= fileBytes;
       if(fileBytes < 16){
         //printf(" FILEBYTES: %d ",fileBytes);
-        for (int i = 0; i < (39 - (fileBytes*2)); i++) {
+        for (int i = 0; i < (40 - spaces); i++) {
           printf(" ");
         }
       }
