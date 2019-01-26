@@ -27,17 +27,24 @@ int main(int argc, char const *argv[]) {
 
 void printBufferLine(unsigned char buffer[], int filedesc){
   int fileBytes;
+  int sum = 0;
   fileBytes = read(filedesc, buffer, 16);
   while(fileBytes > 0){
+    printf("%08x: ",sum);
+
+    int spaces = 0;
     for (int i=0; i < fileBytes; i++)
     {
         printf("%02x",buffer[i]);
-        if(i % 2 == 1){printf(" ");}
+        spaces+=2;
+        if(i % 2 == 1){printf(" "); spaces+=1;}
     }
+    printf(" spaces: %d ",spaces );
 
+    sum+= fileBytes;
       if(fileBytes < 16){
         //printf(" FILEBYTES: %d ",fileBytes);
-        for (int i = 0; i < (36 - fileBytes); i++) {
+        for (int i = 0; i < (39 - (fileBytes*2)); i++) {
           printf(" ");
         }
       }
